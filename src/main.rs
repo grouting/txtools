@@ -264,10 +264,14 @@ fn apply_opacity_mask() -> io::Result<()> {
 
 		let original_file_name = &path.file_name().unwrap().to_str().unwrap();
 
+		let extension_index = original_file_name.rfind('.').unwrap();
+
+		let new_file_name: String = original_file_name.chars().take(extension_index).collect();
+
 		let file_name = if overwrite_image {
-			original_file_name.to_string()
+			new_file_name.to_string()
 		} else {
-			format!("masked_{}", original_file_name)
+			format!("masked_{}", new_file_name)
 		};
 
 		new_image
@@ -288,6 +292,8 @@ fn apply_opacity_mask() -> io::Result<()> {
 			*mask.get(0).unwrap(),
 		])
 	}
+
+	println!("done");
 
 	Ok(())
 }
