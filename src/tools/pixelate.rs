@@ -1,6 +1,6 @@
-use crate::utils::{get_input, pick_files};
+use crate::utils::{get_boolean_input, get_input, pick_files, save_image};
 use image::{io::Reader as ImageReader, DynamicImage, GenericImage, GenericImageView, Rgba};
-use std::{io, path::Path};
+use std::io;
 
 pub fn pixelate() -> io::Result<()> {
 	let files = pick_files("Select the image(s) you want to pixelate");
@@ -15,12 +15,7 @@ pub fn pixelate() -> io::Result<()> {
 		));
 	}
 
-	println!("overwrite image(s)? (y/n)");
-	let overwrite_image = match get_input()?.as_str() {
-		"y" | "Y" => Ok(true),
-		"n" | "N" => Ok(false),
-		_ => Err(io::Error::new(io::ErrorKind::InvalidInput, "invalid input")),
-	}?;
+	let overwrite_image = get_boolean_input("overwrite image(s)? (y/n)")?;
 
 	for path in files {
 		let image = ImageReader::open(path.clone())?
@@ -55,25 +50,7 @@ pub fn pixelate() -> io::Result<()> {
 			}
 		}
 
-		let directory = &path
-			.ancestors()
-			.nth(1)
-			.unwrap_or_else(|| Path::new("."))
-			.display();
-
-		let original_file_name = &path.file_name().unwrap().to_str().unwrap();
-
-		let file_name = if overwrite_image {
-			original_file_name.to_string()
-		} else {
-			format!("pixelated_{}", original_file_name)
-		};
-
-		new_image
-			.save(format!("{}/{}", directory, file_name))
-			.expect("could not save image");
-
-		println!("completed processing {}", original_file_name);
+		save_image(new_image, path.clone(), overwrite_image, "pixelated")
 	}
 
 	println!("done");

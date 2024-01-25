@@ -13,9 +13,18 @@ fn main() -> io::Result<()> {
 		"Apply Opacity Mask",
 		tools::apply_opacity_mask as fn() -> io::Result<()>,
 	));
+	main_menu.add_choice(Choice::new(
+		"3",
+		"Naïve Crop",
+		tools::naive_crop as fn() -> io::Result<()>,
+	));
+	main_menu.add_choice(Choice::new("0", "Exit", || std::process::exit(0)));
 
-	println!("Select tool:");
-	main_menu.print_choices();
-
-	main_menu.execute_choice_input()
+	loop {
+		println!("Select tool:");
+		main_menu.print_choices();
+		if let Err(error) = main_menu.execute_choice_input() {
+			eprintln!("e: {}", error.to_string());
+		};
+	}
 }
