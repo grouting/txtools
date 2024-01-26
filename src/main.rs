@@ -1,5 +1,5 @@
 use std::io;
-use txtool::{tools, Choice, Menu};
+use txtools::{tools, Choice, Menu};
 
 fn main() -> io::Result<()> {
 	let mut main_menu = Menu::new();
