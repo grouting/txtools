@@ -11,4 +11,4 @@ An incredibly scrappy set of tools I use for manipulating textures.
 ```shell
  $ txtools
 ```
-Install it and run the command above to be provided with a set of options.
+Install it (`cargo install txtools`) and run the command above to be provided with a set of options.
