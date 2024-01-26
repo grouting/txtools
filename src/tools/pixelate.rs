@@ -8,7 +8,7 @@ pub fn pixelate() -> io::Result<()> {
 	println!("specify scale:");
 	let scale = get_input()?.parse::<u32>().expect("invalid scale");
 
-	if scale < 2 || scale > 16 {
+	if !(2..=16).contains(&scale) {
 		return Err(io::Error::new(
 			io::ErrorKind::InvalidInput,
 			"scale must be between 2 and 16",
@@ -37,10 +37,8 @@ pub fn pixelate() -> io::Result<()> {
 
 				for i in 0..scale {
 					for j in 0..scale {
-						pixels[(i * scale + j) as usize] = image.get_pixel(
-							x * (scale as u32) + i as u32,
-							y * (scale as u32) + j as u32,
-						);
+						pixels[(i * scale + j) as usize] =
+							image.get_pixel(x * (scale as u32) + i, y * (scale as u32) + j);
 					}
 				}
 

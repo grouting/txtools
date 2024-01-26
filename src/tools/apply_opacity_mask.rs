@@ -54,6 +54,7 @@ fn get_new_pixel(mask: Rgba<u8>, texture: Rgba<u8>) -> Rgba<u8> {
 	let mask = mask.channels();
 	let texture = texture.channels();
 
+	#[allow(clippy::get_first)]
 	Rgba::<u8>([
 		*texture.get(0).unwrap(),
 		*texture.get(1).unwrap(),

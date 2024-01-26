@@ -65,7 +65,10 @@ pub fn save_image(new_image: DynamicImage, path: PathBuf, overwrite: bool, prefi
 		format!("{}_{}", prefix, original_file_name)
 	};
 
-	if let Err(_) = new_image.save(format!("{}/{}", directory, file_name)) {
+	if new_image
+		.save(format!("{}/{}", directory, file_name))
+		.is_err()
+	{
 		println!("could not save {}", original_file_name);
 	} else {
 		println!("finished processing {}", original_file_name);
@@ -96,7 +99,10 @@ pub fn save_image_with_extension_override(
 		format!("{}_{}", prefix, new_file_name)
 	};
 
-	if let Err(_) = new_image.save(format!("{}/{}.{}", directory, file_name, extension)) {
+	if new_image
+		.save(format!("{}/{}.{}", directory, file_name, extension))
+		.is_err()
+	{
 		println!("could not save {}", original_file_name);
 	} else {
 		println!("finished processing {}", original_file_name);

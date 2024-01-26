@@ -24,7 +24,7 @@ fn main() -> io::Result<()> {
 		println!("Select tool:");
 		main_menu.print_choices();
 		if let Err(error) = main_menu.execute_choice_input() {
-			eprintln!("e: {}", error.to_string());
+			eprintln!("e: {}", error);
 		};
 	}
 }

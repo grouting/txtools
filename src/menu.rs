@@ -7,6 +7,7 @@ where
 	choices: Vec<Choice<F>>,
 }
 
+#[allow(clippy::new_without_default)]
 impl<F> Menu<F>
 where
 	F: Fn() -> io::Result<()>,
