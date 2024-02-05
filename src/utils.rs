@@ -1,7 +1,7 @@
 use image::DynamicImage;
 use rfd::FileDialog;
 use std::{
-	io,
+	env, io,
 	path::{Path, PathBuf},
 };
 
@@ -32,7 +32,7 @@ pub fn pick_file(title: &str) -> PathBuf {
 			"image",
 			&["png", "jpg", "jpeg", "bmp", "avif", "tga", "tiff", "webp"],
 		)
-		.set_directory("/")
+		.set_directory(directory())
 		.set_title(title)
 		.pick_file()
 		.expect("no file selected")
@@ -44,10 +44,14 @@ pub fn pick_files(title: &str) -> Vec<PathBuf> {
 			"image",
 			&["png", "jpg", "jpeg", "bmp", "avif", "tga", "tiff", "webp"],
 		)
-		.set_directory("/")
+		.set_directory(directory())
 		.set_title(title)
 		.pick_files()
 		.expect("no files selected")
+}
+
+fn directory() -> PathBuf {
+	env::current_dir().unwrap_or("/".into())
 }
 
 pub fn save_image(new_image: DynamicImage, path: PathBuf, overwrite: bool, prefix: &str) {
